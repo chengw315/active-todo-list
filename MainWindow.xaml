@@ -8,56 +8,36 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid Margin="0,10,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="191*"/>
+            <ColumnDefinition Width="601*"/>
+        </Grid.ColumnDefinitions>
 
         <TextBox
     Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
     VerticalAlignment="Top"
     Height="37"
-    materialDesign:HintAssist.Hint="搜索" Margin="0,27,578,0" HorizontalAlignment="Right" Width="184" />
-        <Calendar HorizontalAlignment="Left" Margin="497,10,0,0" VerticalAlignment="Top" Height="389" Width="285" RenderTransformOrigin="0.503,0.542"/>
-        <ScrollViewer HorizontalAlignment="Left" Height="318" Margin="30,81,0,0" VerticalAlignment="Top" Width="433">
-            <materialDesign:Card
-   KeyUp="Card_KeyUp"  KeyDown="Card_KeyDown" MouseUp="Card_MouseUp">
-                <StackPanel>
-                    <Expander
-      HorizontalAlignment="Stretch"
-      Header="中期报告">
-                        <StackPanel
-        Orientation="Vertical"
-        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-        Margin="24,8,24,16">
-                            <TextBlock
-          Opacity=".68"
-          Text="中期报告至关重要，blablabla……"
-          TextWrapping="Wrap" />
-                            <ComboBox
-    Style="{StaticResource MaterialDesignFilledComboBox}"
-    x:Name="FilledComboBox"
-    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledComboBoxEnabledComboBox}"
-    materialDesign:HintAssist.Hint="优先级"
-    Width="256">
-                                <ComboBoxItem
-      Content="十万火急" />
-                                <ComboBoxItem
-      Content="" />
-                                <ComboBoxItem
-      Content="Item 3" />
+    materialDesign:HintAssist.Hint="搜索" Margin="0,27,578,0" HorizontalAlignment="Right" Width="184" Grid.ColumnSpan="2" />
+        <Calendar HorizontalAlignment="Left" Margin="306,10,0,0" VerticalAlignment="Top" Height="389" Width="285" RenderTransformOrigin="0.503,0.542" Grid.Column="1"/>
+        <ScrollViewer Height="318" Margin="30,81,329,10" Width="433" Grid.ColumnSpan="2">
+            <StackPanel Name="taskList">
+                <materialDesign:Card KeyUp="Card_KeyUp"  KeyDown="Card_KeyDown" MouseUp="Card_MouseUp" Width="406">
+                    <Expander Header="中期报告">
+                        <StackPanel  HorizontalAlignment="Left" Margin="24,8,24,16">
+                            <TextBlock Opacity=".68" Text="中期报告至关重要，blablabla……" TextWrapping="Wrap" />
+                            <ComboBox Style="{StaticResource MaterialDesignFilledComboBox}" x:Name="FilledComboBox" IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledComboBoxEnabledComboBox}" materialDesign:HintAssist.Hint="优先级" HorizontalAlignment="Left" Width="270" Height="52">
+                                <ComboBoxItem Content="十万火急" />
+                                <ComboBoxItem Content="" />
+                                <ComboBoxItem Content="Item 3" />
                             </ComboBox>
-                            <StackPanel>
-                                <DatePicker
-  Width="100"
-  materialDesign:HintAssist.Hint="日期"
-  Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                                <materialDesign:TimePicker
-  Width="100"
-  Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
-  materialDesign:HintAssist.Hint="时间" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <DatePicker HorizontalAlignment="Left" Width="82" materialDesign:HintAssist.Hint="日期" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin ="16,0,16,0"/>
+                                <materialDesign:TimePicker HorizontalAlignment="Left" Width="91" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" materialDesign:HintAssist.Hint="时间" />
                             </StackPanel>
                         </StackPanel>
                     </Expander>
-
-                </StackPanel>
-            </materialDesign:Card>
+                </materialDesign:Card>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Window>
