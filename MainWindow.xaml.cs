@@ -42,13 +42,17 @@ namespace 高主动性的todo清单
         private void initTaskList(List<Task> list)
         {
             int i = 1;
+            int priority = 1;
             string taskName = "代码任务";
             string description = "这是代码生成的任务";
+            DateTime dateTime = new DateTime();
 
-            //卡片
+            //整体卡片
             Card card = new Card();
             card.Name = "card" + i.ToString();
+            card.Width = 406;
             card.Margin = new Thickness(0, 16, 0, 0);
+            taskList.Children.Add(card);
 
             //收缩框
             Expander expander = new Expander();
@@ -58,7 +62,6 @@ namespace 高主动性的todo清单
 
             //stack面板
             StackPanel stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
             stackPanel.Margin = new Thickness(24,8,24,16);
             expander.Content = stackPanel;
 
@@ -74,11 +77,42 @@ namespace 高主动性的todo清单
             comboBox.Style = FindResource("MaterialDesignFilledComboBox") as Style;
             comboBox.Name = "priority" + i.ToString();
             HintAssist.SetHint(comboBox, "优先级");
-            //comboBox.
+            comboBox.Margin = new Thickness(0, 8, 0, 0);
+            comboBox.Width = 230;
+            comboBox.HorizontalAlignment = HorizontalAlignment.Left;
+            comboBox.Items.Add("十万火急");
+            comboBox.Items.Add("很急");
+            comboBox.Items.Add("一般");
+            comboBox.Items.Add("不急");
+            comboBox.SelectedIndex = priority;
             stackPanel.Children.Add(comboBox);
-  
 
-            taskList.Children.Add(card); 
+            //时间日期面板
+            StackPanel stackPanel1 = new StackPanel();
+            stackPanel1.HorizontalAlignment = HorizontalAlignment.Left;
+            stackPanel1.Orientation = Orientation.Horizontal;
+            stackPanel1.Margin = new Thickness(0, 8, 0, 0);
+            stackPanel.Children.Add(stackPanel1);
+            //日期
+            DatePicker datePicker = new DatePicker();
+            datePicker.HorizontalAlignment = HorizontalAlignment.Left;
+            datePicker.Width = 82; 
+            datePicker.Style = FindResource("MaterialDesignFloatingHintDatePicker") as Style;
+            HintAssist.SetHint(datePicker, "任务日期");
+            datePicker.Margin = new Thickness(16, 0, 16, 0);          
+            datePicker.SelectedDate = dateTime;
+            stackPanel1.Children.Add(datePicker);
+            //时间
+            TimePicker timePicker = new TimePicker();
+            timePicker.HorizontalAlignment = HorizontalAlignment.Left;
+            timePicker.Width = 82;
+            timePicker.Style = FindResource("MaterialDesignFloatingHintTimePicker") as Style;
+            HintAssist.SetHint(timePicker, "时间");
+            timePicker.SelectedTime = dateTime;
+            stackPanel1.Children.Add(timePicker);
+
+            //子任务树
+
         }
 
         private List<Task> getAllTask()

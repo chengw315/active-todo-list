@@ -25,7 +25,7 @@
                     <Expander Header="中期报告">
                         <StackPanel  HorizontalAlignment="Left" Margin="24,8,24,16">
                             <TextBlock Opacity=".68" Text="中期报告至关重要，blablabla……" TextWrapping="Wrap" />
-                            <ComboBox Style="{StaticResource MaterialDesignFilledComboBox}" x:Name="FilledComboBox" IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledComboBoxEnabledComboBox}" materialDesign:HintAssist.Hint="优先级" HorizontalAlignment="Left" Width="270" Height="52">
+                            <ComboBox Style="{StaticResource MaterialDesignFilledComboBox}" x:Name="FilledComboBox" IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledComboBoxEnabledComboBox}" materialDesign:HintAssist.Hint="优先级" HorizontalAlignment="Left" Width="229" Height="52">
                                 <ComboBoxItem Content="十万火急" />
                                 <ComboBoxItem Content="" />
                                 <ComboBoxItem Content="Item 3" />
@@ -34,6 +34,28 @@
                                 <DatePicker HorizontalAlignment="Left" Width="82" materialDesign:HintAssist.Hint="日期" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin ="16,0,16,0"/>
                                 <materialDesign:TimePicker HorizontalAlignment="Left" Width="91" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" materialDesign:HintAssist.Hint="时间" />
                             </StackPanel>
+                            <TreeView MinWidth="220">
+                                <TreeViewItem Header="Fruit">
+                                    <TreeViewItem
+      Header="Banana" />
+                                    <TreeViewItem
+      Header="Peach" />
+                                    <TreeViewItem
+      Header="Pear" />
+                                    <TreeViewItem
+      Header="Strawberry" />
+                                </TreeViewItem>
+                                <TreeViewItem Header="Fruit">
+                                    <TreeViewItem
+      Header="Banana" />
+                                    <TreeViewItem
+      Header="Peach" />
+                                    <TreeViewItem
+      Header="Pear" />
+                                    <TreeViewItem
+      Header="Strawberry" />
+                                </TreeViewItem>
+                            </TreeView>
                         </StackPanel>
                     </Expander>
                 </materialDesign:Card>
