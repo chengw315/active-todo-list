@@ -1,0 +1,63 @@
+﻿<Window x:Class="高主动性的todo清单.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:高主动性的todo清单"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid Margin="0,10,0,0">
+
+        <TextBox
+    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+    VerticalAlignment="Top"
+    Height="37"
+    materialDesign:HintAssist.Hint="搜索" Margin="0,27,578,0" HorizontalAlignment="Right" Width="184" />
+        <Calendar HorizontalAlignment="Left" Margin="497,10,0,0" VerticalAlignment="Top" Height="389" Width="285" RenderTransformOrigin="0.503,0.542"/>
+        <ScrollViewer HorizontalAlignment="Left" Height="318" Margin="30,81,0,0" VerticalAlignment="Top" Width="433">
+            <materialDesign:Card
+   KeyUp="Card_KeyUp"  KeyDown="Card_KeyDown" MouseUp="Card_MouseUp">
+                <StackPanel>
+                    <Expander
+      HorizontalAlignment="Stretch"
+      Header="中期报告">
+                        <StackPanel
+        Orientation="Vertical"
+        TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+        Margin="24,8,24,16">
+                            <TextBlock
+          Opacity=".68"
+          Text="中期报告至关重要，blablabla……"
+          TextWrapping="Wrap" />
+                            <ComboBox
+    Style="{StaticResource MaterialDesignFilledComboBox}"
+    x:Name="FilledComboBox"
+    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledComboBoxEnabledComboBox}"
+    materialDesign:HintAssist.Hint="优先级"
+    Width="256">
+                                <ComboBoxItem
+      Content="十万火急" />
+                                <ComboBoxItem
+      Content="" />
+                                <ComboBoxItem
+      Content="Item 3" />
+                            </ComboBox>
+                            <StackPanel>
+                                <DatePicker
+  Width="100"
+  materialDesign:HintAssist.Hint="日期"
+  Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                                <materialDesign:TimePicker
+  Width="100"
+  Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+  materialDesign:HintAssist.Hint="时间" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+
+                </StackPanel>
+            </materialDesign:Card>
+        </ScrollViewer>
+    </Grid>
+</Window>
