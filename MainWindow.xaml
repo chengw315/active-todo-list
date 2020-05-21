@@ -7,59 +7,15 @@
         xmlns:local="clr-namespace:高主动性的todo清单"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <Grid Margin="0,10,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="191*"/>
-            <ColumnDefinition Width="601*"/>
-        </Grid.ColumnDefinitions>
+    <Viewbox Stretch="Fill">
+        <Canvas Width="800" Height="450">
 
-        <TextBox
-    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-    VerticalAlignment="Top"
-    Height="37"
-    materialDesign:HintAssist.Hint="搜索" Margin="0,27,578,0" HorizontalAlignment="Right" Width="184" Grid.ColumnSpan="2" />
-        <Calendar HorizontalAlignment="Left" Margin="306,10,0,0" VerticalAlignment="Top" Height="389" Width="285" RenderTransformOrigin="0.503,0.542" Grid.Column="1"/>
-        <ScrollViewer Height="318" Margin="30,81,329,10" Width="433" Grid.ColumnSpan="2">
-            <StackPanel Name="taskList">
-                <materialDesign:Card KeyUp="Card_KeyUp"  KeyDown="Card_KeyDown" MouseUp="Card_MouseUp" Width="406">
-                    <Expander Header="中期报告">
-                        <StackPanel  HorizontalAlignment="Left" Margin="24,8,24,16">
-                            <TextBlock Opacity=".68" Text="中期报告至关重要，blablabla……" TextWrapping="Wrap" />
-                            <ComboBox Style="{StaticResource MaterialDesignFilledComboBox}" x:Name="FilledComboBox" IsEnabled="{Binding IsChecked, ElementName=MaterialDesignFilledComboBoxEnabledComboBox}" materialDesign:HintAssist.Hint="优先级" HorizontalAlignment="Left" Width="229" Height="52">
-                                <ComboBoxItem Content="十万火急" />
-                                <ComboBoxItem Content="" />
-                                <ComboBoxItem Content="Item 3" />
-                            </ComboBox>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <DatePicker HorizontalAlignment="Left" Width="82" materialDesign:HintAssist.Hint="日期" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin ="16,0,16,0"/>
-                                <materialDesign:TimePicker HorizontalAlignment="Left" Width="91" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" materialDesign:HintAssist.Hint="时间" />
-                            </StackPanel>
-                            <TreeView MinWidth="220">
-                                <TreeViewItem Header="Fruit">
-                                    <TreeViewItem
-      Header="Banana" />
-                                    <TreeViewItem
-      Header="Peach" />
-                                    <TreeViewItem
-      Header="Pear" />
-                                    <TreeViewItem
-      Header="Strawberry" />
-                                </TreeViewItem>
-                                <TreeViewItem Header="Fruit">
-                                    <TreeViewItem
-      Header="Banana" />
-                                    <TreeViewItem
-      Header="Peach" />
-                                    <TreeViewItem
-      Header="Pear" />
-                                    <TreeViewItem
-      Header="Strawberry" />
-                                </TreeViewItem>
-                            </TreeView>
-                        </StackPanel>
-                    </Expander>
-                </materialDesign:Card>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" VerticalAlignment="Top" Height="37" materialDesign:HintAssist.Hint="搜索" HorizontalAlignment="Right" Width="184" Grid.ColumnSpan="2" Canvas.Left="30" Canvas.Top="30" TextChanged="TextBox_TextChanged" />
+            <Calendar HorizontalAlignment="Left" VerticalAlignment="Top" Height="450" Width="293" RenderTransformOrigin="0.503,0.542" Grid.Column="1" Canvas.Left="497" Canvas.Top="10"/>
+            <ScrollViewer Height="359" Width="431" Grid.ColumnSpan="2" Canvas.Left="30" Canvas.Top="81">
+                <StackPanel Name="taskList">
+                </StackPanel>
+            </ScrollViewer>
+        </Canvas>
+    </Viewbox>
 </Window>
