@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using 高主动性的todo清单.service;
 
 namespace 高主动性的todo清单
 {
@@ -39,12 +38,15 @@ namespace 高主动性的todo清单
         {
             //初始化数据库表
             SQLiteTablesInitializer.initTables();
+            //获取所有任务
+            getAllTask();
             //用 所有任务 初始化任务列表
-            initTaskList(getAllTask());
+            updateTaskList();
         }
 
-        private void initTaskList(List<Task> list)
+        private void updateTaskList()
         {
+            List<Task> list = taskService.Tasks;
             for (int i = 0; i < list.Count; i++)
             {
                 Task task = list.ElementAt(i);
@@ -285,10 +287,9 @@ namespace 高主动性的todo清单
             sonTree.Items.Add(addSon);
         }
 
-        private List<Task> getAllTask()
+        private void getAllTask()
         {
             taskService.getAllTasks();
-            return taskService.Tasks;
         }
 
 

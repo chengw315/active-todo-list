@@ -29,37 +29,37 @@ namespace 高主动性的todo清单
 
         private static void initUserScriptTable()
         {
-            string sql = "CREATE TABLE IF NOT EXISTS secipt_user(id int(11) NOT NULL ,script_id int(11), path varchar(255) ,PRIMARY KEY(`id`))";
+            string sql = "CREATE TABLE IF NOT EXISTS secipt_user(id int(11) NOT NULL ,script_id int(11), path varchar(255) ,sever_id int(11),PRIMARY KEY(`id`))";
             createTable(sql);
         }
 
         private static void initOpenWebScriptTable()
         {
-            string sql = "CREATE TABLE IF NOT EXISTS script_open_web(id int(11) NOT NULL ,script_id int(11),url varchar(255),  PRIMARY KEY(`id`) )";
+            string sql = "CREATE TABLE IF NOT EXISTS script_open_web(id int(11) NOT NULL ,script_id int(11),url varchar(255), sever_id int(11), PRIMARY KEY(`id`) )";
             createTable(sql);
         }
 
         private static void initOpenFileScriptTable()
         {
-            string sql = "CREATE TABLE IF NOT EXISTS script_open_file ( id int(11) NOT NULL ,script_id int(11),  path varchar(255) ,  PRIMARY KEY(`id`))";
+            string sql = "CREATE TABLE IF NOT EXISTS script_open_file ( id int(11) NOT NULL ,script_id int(11),  path varchar(255) ,sever_id int(11),  PRIMARY KEY(`id`))";
             createTable(sql);
         }
 
         private static void initScriptTable()
         {
-            string sql = "CREATE TABLE IF NOT EXISTS script(id int(11) NOT NULL,script_type int(255) NULL DEFAULT NULL,subtask_id int(11) NULL DEFAULT NULL,PRIMARY KEY(`id`))";
+            string sql = "CREATE TABLE IF NOT EXISTS script(id int(11) NOT NULL,script_type int(255) NULL DEFAULT NULL,subtask_id int(11) NULL DEFAULT NULL,sever_id int(11),PRIMARY KEY(`id`))";
             createTable(sql);
         }
 
         private static void initSubTaskTable()
         {
-            string sql = "CREATE TABLE IF NOT EXISTS subtask(id int(11) NOT NULL , subtask_name varchar(255) ,subtask_state int(1)  ,parent_id int(11) NULL DEFAULT NULL ,root_id int(11) NULL DEFAULT NULL, PRIMARY KEY(`id`))";
+            string sql = "CREATE TABLE IF NOT EXISTS subtask(id int(11) NOT NULL , subtask_name varchar(255) ,subtask_state int(1)  ,parent_id int(11) NULL DEFAULT NULL ,root_id int(11) NULL DEFAULT NULL,sever_id int(11), PRIMARY KEY(`id`))";
             createTable(sql);
         }
 
         private static void initTaskTable()
         {
-            string sql = "CREATE TABLE IF NOT EXISTS task(id int(11) NOT NULL,task_name varchar(255),task_priority tinyint(8),task_state tinyint(1) DEFAULT 0,task_description varchar(255),  task_date datetime(0),  PRIMARY KEY(id))";
+            string sql = "CREATE TABLE IF NOT EXISTS task(id int(11) NOT NULL,task_name varchar(255),task_priority tinyint(8),task_state tinyint(1) DEFAULT 0,task_description varchar(255),  task_date datetime(0),sever_id int(11),  PRIMARY KEY(id))";
             createTable(sql);
         }
 

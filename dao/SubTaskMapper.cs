@@ -16,7 +16,7 @@ namespace 高主动性的todo清单
         internal SubTask addParentSubTask(int taskId, SubTask subTask)
         {
             //插入
-            string sql = string.Format($"INSERT INTO subtask(subtaskName, subtaskState,rootTaskId) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{taskId}'')");
+            string sql = string.Format($"INSERT INTO subtask(subtask_name, subtask_state,root_id) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{taskId}')");
             return addParentSubTask(sql, subTask);
         }
 
@@ -33,11 +33,19 @@ namespace 高主动性的todo清单
         }
 
         /**
-         * 获取所有子任务
+         * 获取所有一级子任务
          */
-        internal List<SubTask> getSubTasks(int taskId)
+        public List<SubTask> getSubTasks(int taskId)
         {
-            throw new NotImplementedException();
+            return new List<SubTask>();
+        }
+
+        /**
+         * 获取所有二级子任务
+         */
+        public List<SubTask> getSonSubTasks(int taskId)
+        {
+            return new List<SubTask>();
         }
 
         /**
@@ -45,7 +53,7 @@ namespace 高主动性的todo清单
          */
         internal SubTask addSonSubTask(int subTaskId, SubTask subTask)
         {
-            string sql = string.Format($"INSERT INTO subtask(subtaskName, subtaskState, parentTaskId) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{subTaskId}'')");
+            string sql = string.Format($"INSERT INTO subtask(subtask_name, subtask_state, parent_id) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{subTaskId}'')");
             return addParentSubTask(sql,subTask);
         }
     }

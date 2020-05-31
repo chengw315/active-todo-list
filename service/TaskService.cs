@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 高主动性的todo清单.service
+namespace 高主动性的todo清单
 {
     class TaskService
     {
@@ -13,14 +13,28 @@ namespace 高主动性的todo清单.service
 
         private TaskMapper taskMapper = new TaskMapper();
         private SubTaskMapper subTaskMapper = new SubTaskMapper();
+        private TaskScriptMapper scriptMapper = new TaskScriptMapper();
 
         internal List<Task> Tasks { get => tasks; set => tasks = value; }
 
         public void getAllTasks() {
+            //先获取任务集合
             tasks = taskMapper.getAllTasks();
+
             for (int i = 0; i < tasks.Count; i++) {
-                tasks.ElementAt(i).SubTasks = subTaskMapper.getSubTasks(tasks.ElementAt(i).TaskId);
+                //获取任务的一级子任务集合
+                List<SubTask> subTasks = subTaskMapper.getSubTasks(tasks.ElementAt(i).TaskId);
+                tasks.ElementAt(i).SubTasks = subTasks;
+
+                for (int j = 0; j < subTasks.Count; j++)
+                {
+                    //获取子任务的脚本
+                    subTasks.ElementAt(j).Script = scriptMapper.getScript4SubTask(subTasks.ElementAt(j).Id);
+                    //获取一级子任务的二级子任务集合
+                    subTasks.ElementAt(j).SubTasks = subTaskMapper.getSonSubTasks(subTasks.ElementAt(j).Id);
+                }
             }
+
         }
 
         /**
