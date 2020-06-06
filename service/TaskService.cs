@@ -17,11 +17,18 @@ namespace 高主动性的todo清单
 
         internal List<Task> Tasks { get => tasks; set => tasks = value; }
 
-        public void getAllTasks() {
+        public void getAllTasks()
+        {
             //先获取任务集合
             tasks = taskMapper.getAllTasks();
+            completeTasks();
 
-            for (int i = 0; i < tasks.Count; i++) {
+        }
+
+        private void completeTasks()
+        {
+            for (int i = 0; i < tasks.Count; i++)
+            {
                 //获取任务的一级子任务集合
                 List<SubTask> subTasks = subTaskMapper.getSubTasks(tasks.ElementAt(i).TaskId);
                 tasks.ElementAt(i).SubTasks = subTasks;
@@ -34,7 +41,6 @@ namespace 高主动性的todo清单
                     subTasks.ElementAt(j).SubTasks = subTaskMapper.getSonSubTasks(subTasks.ElementAt(j).Id);
                 }
             }
-
         }
 
         /**
@@ -54,27 +60,44 @@ namespace 高主动性的todo清单
         {
             SubTask subTask = new SubTask();
             subTask.SubTaskName = "新任务";
+            subTask.SubTaskState = 0;
             return subTaskMapper.addSonSubTask(subTaskId, subTask);
         }
 
         internal void changeDescription(int taskId, string description)
         {
-            throw new NotImplementedException();
+            taskMapper.changeDescription(taskId, description);
         }
 
         internal void changePriority(int taskId, int priority)
         {
-            throw new NotImplementedException();
+            taskMapper.changePriority(taskId, priority);
         }
 
         internal void changeTime(int taskId, DateTime? time)
         {
-            throw new NotImplementedException();
+            taskMapper.changeTime(taskId, time);
         }
 
-        internal void changeDate(int tag, DateTime? selectedDate)
+        internal void changeDate(int taskId, DateTime? date)
         {
-            throw new NotImplementedException();
+            taskMapper.changeDate(taskId, date);
+        }
+
+        internal Task addNewTask()
+        {
+            Task task = new Task();
+            task.TaskName = "新任务";
+            task.Priority = 0;
+            task.TaskDate = new DateTime();
+            task.TaskDescription = "";
+            return taskMapper.addNewTask(task);
+        }
+
+        internal void search(string searchWord)
+        {
+            tasks = taskMapper.selectByPartName(searchWord);
+            completeTasks();
         }
     }
 }

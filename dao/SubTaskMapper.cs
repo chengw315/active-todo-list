@@ -37,7 +37,24 @@ namespace 高主动性的todo清单
          */
         public List<SubTask> getSubTasks(int taskId)
         {
-            return new List<SubTask>();
+            return getSubTasks(taskId, "root_id");
+        }
+
+        private static List<SubTask> getSubTasks(int taskId, string parentIdName)
+        {
+            List<SubTask> result = new List<SubTask>();
+            string sql_select = string.Format($"select id,subtask_name,subtask_state from subtask where {parentIdName} = {taskId}");
+            SQLiteDataReader sQLiteDataReader = SQLiteExecutor.select(sql_select);
+            while (sQLiteDataReader.Read())
+            {
+                SubTask subTask = new SubTask();
+                subTask.Id = sQLiteDataReader.GetInt32(0);
+                subTask.SubTaskName = sQLiteDataReader.GetString(1);
+                subTask.SubTaskState = sQLiteDataReader.GetInt32(2);
+                result.Add(subTask);
+
+            }
+            return result;
         }
 
         /**
@@ -45,7 +62,7 @@ namespace 高主动性的todo清单
          */
         public List<SubTask> getSonSubTasks(int taskId)
         {
-            return new List<SubTask>();
+            return getSubTasks(taskId, "parent_id");
         }
 
         /**
@@ -53,7 +70,7 @@ namespace 高主动性的todo清单
          */
         internal SubTask addSonSubTask(int subTaskId, SubTask subTask)
         {
-            string sql = string.Format($"INSERT INTO subtask(subtask_name, subtask_state, parent_id) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{subTaskId}'')");
+            string sql = string.Format($"INSERT INTO subtask(subtask_name, subtask_state, parent_id) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{subTaskId}')");
             return addParentSubTask(sql,subTask);
         }
     }

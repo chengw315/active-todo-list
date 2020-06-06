@@ -69,6 +69,9 @@
     <Compile Include="dao\SubTaskMapper.cs" />
     <Compile Include="dao\TaskScriptMapper.cs" />
     <Compile Include="datasource\SQLiteExecutor.cs" />
+    <Compile Include="Desktop.xaml.cs">
+      <DependentUpon>Desktop.xaml</DependentUpon>
+    </Compile>
     <Compile Include="entity\po\OpenFileScript.cs" />
     <Compile Include="entity\po\OpenWebScript.cs" />
     <Compile Include="datasource\SQLiteConnectionPool.cs" />
@@ -79,6 +82,10 @@
     <Compile Include="entity\po\TaskScript.cs" />
     <Compile Include="entity\po\UserScript.cs" />
     <Compile Include="service\TaskService.cs" />
+    <Page Include="Desktop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,49 +1,24 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace 高主动性的todo清单
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// desktop.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Desktop : Window
     {
+        public static Desktop desktop = new Desktop();
         private TaskService taskService = new TaskService();
 
-        public MainWindow()
+        private Desktop()
         {
             InitializeComponent();
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            //打开桌面小部件
-            Desktop.desktop.Show();
-            //初始化数据库表
-            SQLiteTablesInitializer.initTables();
-            //获取所有任务
-            getAllTask();
-            //用 所有任务 初始化任务列表
-            updateTaskList();
         }
 
         private void updateTaskList()
@@ -55,11 +30,11 @@ namespace 高主动性的todo清单
             for (int i = 0; i < list.Count; i++)
             {
                 Task task = list.ElementAt(i);
-                showTask(task,false);
+                showTask(task, false);
             }
         }
 
-        private void showTask(Task task,bool isExpand)
+        private void showTask(Task task, bool isExpand)
         {
             int priority = task.Priority;
             string taskName = task.TaskName;
@@ -79,7 +54,8 @@ namespace 高主动性的todo清单
             expander.Header = taskName;
             card.Content = expander;
             //展开任务面板
-            if (isExpand) {
+            if (isExpand)
+            {
                 expander.IsExpanded = true;
             }
 
@@ -265,7 +241,7 @@ namespace 高主动性的todo清单
         {
             TextBox nameTextBox = (TextBox)sender;
             String newName = nameTextBox.Text;
-            
+
         }
 
         /**
@@ -306,7 +282,7 @@ namespace 高主动性的todo清单
         private void getAllTask()
         {
             taskService.getAllTasks();
-        }     
+        }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -320,7 +296,7 @@ namespace 高主动性的todo清单
             //插入新任务
             Task newTask = taskService.addNewTask();
             //在最底部添加新任务卡片控件,并展开
-            showTask(newTask,true);
+            showTask(newTask, true);
             //滚动到最底部
             scrollView.ScrollToVerticalOffset(scrollView.ScrollableHeight);
 

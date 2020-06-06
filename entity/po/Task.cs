@@ -11,6 +11,7 @@ namespace 高主动性的todo清单
         private int taskId;
         private string taskName;
         private string taskDescription;
+        private int taskState;
         private DateTime taskDate;
         private int priority;
         private List<SubTask> subTasks;
@@ -41,6 +42,7 @@ namespace 高主动性的todo清单
         public string TaskDescription { get => taskDescription; set => taskDescription = value; }
         public DateTime TaskDate { get => taskDate; set => taskDate = value; }
         public int Priority { get => priority; set => priority = value; }
+        public int TaskState { get => taskState; set => taskState = value; }
         internal List<SubTask> SubTasks { get => subTasks; set => subTasks = value; }
     }
 }
