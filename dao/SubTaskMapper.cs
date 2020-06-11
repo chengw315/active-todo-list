@@ -73,5 +73,12 @@ namespace 高主动性的todo清单
             string sql = string.Format($"INSERT INTO subtask(subtask_name, subtask_state, parent_id) VALUES ('{subTask.SubTaskName}','{subTask.SubTaskState}','{subTaskId}')");
             return addParentSubTask(sql,subTask);
         }
+
+        internal void changeSubTaskName(int id, string newName)
+        {
+            newName.Replace("'","\'");
+            string sql = string.Format($"UPDATE subtask SET subtask_name = '{newName}' WHERE id = {id}");
+            SQLiteExecutor.execute(sql);
+        }
     }
 }

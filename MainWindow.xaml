@@ -12,14 +12,14 @@
         <Canvas Width="800" Height="450">
 
             <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" VerticalAlignment="Top" Height="37" materialDesign:HintAssist.Hint="搜索" HorizontalAlignment="Right" Width="184" Grid.ColumnSpan="2" Canvas.Left="30" Canvas.Top="30" TextChanged="TextBox_TextChanged" />
-            <Calendar HorizontalAlignment="Left" VerticalAlignment="Top" Height="450" Width="293" RenderTransformOrigin="0.503,0.542" Grid.Column="1" Canvas.Left="497" Canvas.Top="10"/>
+            <Calendar HorizontalAlignment="Left" VerticalAlignment="Top" Height="450" Width="293" RenderTransformOrigin="0.503,0.542" Grid.Column="1" Canvas.Left="497" Canvas.Top="10" SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
             <ScrollViewer Name ="scrollView" Height="359" Width="431" Grid.ColumnSpan="2" Canvas.Left="30" Canvas.Top="81">
                 <StackPanel Name="taskList">
                 </StackPanel>
             </ScrollViewer>
-            <Button Content="优先级" Canvas.Left="233" Canvas.Top="33" Width="73" Click="Button_Click"/>
-            <Button Content="最近" Canvas.Left="311" Canvas.Top="33" Width="70" Click="Button_Click" Height="32"/>
-            <Button Content="+" Canvas.Left="388" Canvas.Top="33" Width="55" Click="Button_Click" Height="32"/>
+            <Button Content="优先级" Canvas.Left="233" Canvas.Top="33" Width="73" Click="Priority_Button_Click"/>
+            <Button Content="最近" Canvas.Left="311" Canvas.Top="33" Width="70" Click="Date_Button_Click" Height="32"/>
+            <Button Content="+" Canvas.Left="388" Canvas.Top="33" Width="55" Click="Add_Button_Click" Height="32"/>
         </Canvas>
     </Viewbox>
 </Window>

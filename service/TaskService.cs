@@ -10,12 +10,13 @@ namespace 高主动性的todo清单
     {
         //视图对应的域
         private List<Task> tasks;
-
+        private static int curTaskId = -1;
         private TaskMapper taskMapper = new TaskMapper();
         private SubTaskMapper subTaskMapper = new SubTaskMapper();
         private TaskScriptMapper scriptMapper = new TaskScriptMapper();
 
         internal List<Task> Tasks { get => tasks; set => tasks = value; }
+        public static int CurTaskId { get => curTaskId; set => curTaskId = value; }
 
         public void getAllTasks()
         {
@@ -49,7 +50,7 @@ namespace 高主动性的todo清单
         internal SubTask addParentSubTask(int taskId)
         {
             SubTask subTask = new SubTask();
-            subTask.SubTaskName = "新任务";
+            subTask.SubTaskName = "新的一步";
             return subTaskMapper.addParentSubTask(taskId,subTask);
         }
 
@@ -59,7 +60,7 @@ namespace 高主动性的todo清单
         internal SubTask addSonSubTask(int subTaskId)
         {
             SubTask subTask = new SubTask();
-            subTask.SubTaskName = "新任务";
+            subTask.SubTaskName = "新的一小步";
             subTask.SubTaskState = 0;
             return subTaskMapper.addSonSubTask(subTaskId, subTask);
         }
@@ -89,7 +90,7 @@ namespace 高主动性的todo清单
             Task task = new Task();
             task.TaskName = "新任务";
             task.Priority = 0;
-            task.TaskDate = new DateTime();
+            task.TaskDate = DateTime.Now;
             task.TaskDescription = "";
             return taskMapper.addNewTask(task);
         }
@@ -97,6 +98,34 @@ namespace 高主动性的todo清单
         internal void search(string searchWord)
         {
             tasks = taskMapper.selectByPartName(searchWord);
+            completeTasks();
+        }
+
+        internal void changeSubTaskName(int id, string newName)
+        {
+            subTaskMapper.changeSubTaskName(id,newName);
+        }
+
+        internal void changeName(int id, string newName)
+        {
+            taskMapper.changeName(id, newName);
+        }
+
+        internal void makeTasksOrderByPriority()
+        {
+            tasks = taskMapper.selectOrderByPriority();
+            completeTasks();
+        }
+
+        internal void makeTasksOrderByDate()
+        {
+            tasks = taskMapper.selectOrderByDate();
+            completeTasks();
+        }
+
+        internal void getTasksInDate(DateTime? selectedDate)
+        {
+            tasks = taskMapper.selectInDate(selectedDate);
             completeTasks();
         }
     }

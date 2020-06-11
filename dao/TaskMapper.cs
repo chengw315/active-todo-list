@@ -55,7 +55,7 @@ namespace 高主动性的todo清单
 
         internal void changeDescription(int taskId, string description)
         {
-            string sql_update = string.Format($"update task set task_description =  {description} where id = {taskId}");
+            string sql_update = string.Format($"update task set task_description =  '{description}' where id = {taskId}");
             SQLiteExecutor.execute(sql_update);
         }
 
@@ -84,6 +84,30 @@ namespace 高主动性的todo清单
                 return;
             DateTime taskDate = list.ElementAt(0).TaskDate;
             string sql_update = string.Format($"update task set task_date =  '{date.ToString().Split(' ')[0]} {taskDate.TimeOfDay}' where id = {taskId}");
+            SQLiteExecutor.execute(sql_update);
+        }
+
+        internal List<Task> selectOrderByDate()
+        {
+            string sql_select = string.Format($"select id,task_name,task_priority,task_state,task_description,task_date from task order by task_date");
+            return select(sql_select);
+        }
+
+        internal List<Task> selectInDate(DateTime? selectedDate)
+        {
+            string sql_select = string.Format($"select id,task_name,task_priority,task_state,task_description,task_date from task where task_date like '%{selectedDate.ToString().Split(' ')[0]}%'");
+            return select(sql_select);
+        }
+
+        internal List<Task> selectOrderByPriority()
+        {
+            string sql_select = string.Format($"select id,task_name,task_priority,task_state,task_description,task_date from task order by task_priority");
+            return select(sql_select);
+        }
+
+        internal void changeName(int id, string newName)
+        {
+            string sql_update = string.Format($"update task set task_Name =  '{newName}' where id = {id}");
             SQLiteExecutor.execute(sql_update);
         }
 

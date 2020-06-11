@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace 高主动性的todo清单
 {
@@ -19,6 +20,16 @@ namespace 高主动性的todo清单
         private Desktop()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //初始化数据库表
+            SQLiteTablesInitializer.initTables();
+            //获取所有任务
+            getAllTask();
+            //用 所有任务 初始化任务列表
+            updateTaskList();
         }
 
         private void updateTaskList()
@@ -52,7 +63,13 @@ namespace 高主动性的todo清单
             Expander expander = new Expander();
             expander.HorizontalAlignment = HorizontalAlignment.Stretch;
             expander.Header = taskName;
+            if (task.TaskState == 1)
+            {
+                expander.Header += "（已完成）";
+                expander.Background = new SolidColorBrush(Color.FromRgb(169, 169, 169));
+            }
             card.Content = expander;
+            expander.Tag = task.TaskId;
             //展开任务面板
             if (isExpand)
             {
@@ -64,14 +81,29 @@ namespace 高主动性的todo清单
             stackPanel.Margin = new Thickness(24, 8, 24, 16);
             expander.Content = stackPanel;
 
+            //任务名
+            TextBox nameBox = new TextBox();
+            nameBox.Opacity = 0.68;
+            nameBox.Text = taskName;
+            nameBox.TextWrapping = TextWrapping.Wrap;
+            HintAssist.SetHint(nameBox, "任务名称");
+            nameBox.Style = FindResource("MaterialDesignOutlinedTextFieldTextBox") as Style;
+            nameBox.Margin = new Thickness(0, 16, 0, 0);
+            stackPanel.Children.Add(nameBox);
+            nameBox.Tag = expander;
+            nameBox.TextChanged += TaskNameChanged;
+            nameBox.LostFocus += NameChanged;
             //任务的描述文本框
-            TextBlock textBlock = new TextBlock();
-            textBlock.Opacity = 0.68;
-            textBlock.Text = description;
-            textBlock.TextWrapping = TextWrapping.Wrap;
-            stackPanel.Children.Add(textBlock);
-            textBlock.Tag = task.TaskId;
-            textBlock.DataContextChanged += Description_Changed;
+            TextBox descBox = new TextBox();
+            descBox.Opacity = 0.68;
+            descBox.Text = description;
+            descBox.TextWrapping = TextWrapping.Wrap;
+            HintAssist.SetHint(descBox, "任务描述");
+            descBox.Style = FindResource("MaterialDesignOutlinedTextFieldTextBox") as Style;
+            descBox.Margin = new Thickness(0, 16, 0, 0);
+            stackPanel.Children.Add(descBox);
+            descBox.Tag = task.TaskId;
+            descBox.LostFocus += DescChanged; ;
 
             //优先级选择栏
             ComboBox comboBox = new ComboBox();
@@ -156,6 +188,34 @@ namespace 高主动性的todo清单
             stackPanel.Children.Add(subTaskTree);
         }
 
+        private void NameChanged(object sender, RoutedEventArgs e)
+        {
+            TextBox name_Text = (TextBox)sender;
+            Expander expander = (Expander)name_Text.Tag;
+            expander.Header = name_Text.Text;
+            taskService.changeName((int)expander.Tag, name_Text.Text);
+        }
+
+        /**
+         * 任务描述变更时
+         */
+        private void DescChanged(object sender, RoutedEventArgs e)
+        {
+            TextBox description_Text = (TextBox)sender;
+            taskService.changeDescription((int)description_Text.Tag, description_Text.Text);
+        }
+
+
+        /**
+         * 任务名变更时
+         */
+        private void TaskNameChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox name_Text = (TextBox)sender;
+            Expander expander = (Expander)name_Text.Tag;
+            expander.Header = name_Text.Text;
+        }
+
         private void Time_Changed(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
         {
             TimePicker time_picker = (TimePicker)sender;
@@ -182,8 +242,7 @@ namespace 高主动性的todo清单
          */
         private void Description_Changed(object sender, DependencyPropertyChangedEventArgs e)
         {
-            TextBlock description_Text = (TextBlock)sender;
-            taskService.changeDescription((int)description_Text.Tag, description_Text.Text);
+
         }
 
         /**
@@ -202,6 +261,11 @@ namespace 高主动性的todo清单
             textBox.Height = 30;
             textBox.Width = 180;
             textBox.Text = subTask.SubTaskName;
+            if (subTask.SubTaskState == 1)
+            {
+                textBox.Text += "（已完成）";
+                textBox.Background = new SolidColorBrush(Color.FromRgb(169, 169, 169));
+            }
             textBox.Tag = subTask.Id;
             textBox.LostFocus += subTaskName_LostFocus;
             stackPanel.Children.Add(textBox);
@@ -231,6 +295,7 @@ namespace 高主动性的todo清单
             stackPanel.Children.Add(edit);
 
             result.Header = stackPanel;
+            result.Tag = subTask.Id;
             return result;
         }
 
@@ -241,7 +306,7 @@ namespace 高主动性的todo清单
         {
             TextBox nameTextBox = (TextBox)sender;
             String newName = nameTextBox.Text;
-
+            taskService.changeSubTaskName((int)nameTextBox.Tag, newName);
         }
 
         /**
@@ -252,6 +317,7 @@ namespace 高主动性的todo清单
             TreeViewItem addParent = (TreeViewItem)sender;
             TreeView subTaskTree = (TreeView)addParent.Tag;
             TreeViewItem treeViewItem = createTreeViewItem(taskService.addParentSubTask((int)subTaskTree.Tag));
+            treeViewItem.Header = "新的一步";
             TreeViewItem addSon = new TreeViewItem();
             addSon.Header = "+";
             addSon.MouseUp += AddSon_MouseUp;
@@ -269,8 +335,8 @@ namespace 高主动性的todo清单
         {
             TreeViewItem addSon = (TreeViewItem)sender;
             TreeViewItem sonTree = (TreeViewItem)addSon.Tag;
-            TreeViewItem son = new TreeViewItem();
-            son.Header = "新的一步";
+            TreeViewItem son = createTreeViewItem(taskService.addSonSubTask((int)sonTree.Tag));
+            son.Header = "新的一小步";
             //移除“+”
             sonTree.Items.Remove(addSon);
             //添加新子任务
@@ -291,7 +357,7 @@ namespace 高主动性的todo清单
             updateTaskList();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Add_Button_Click(object sender, RoutedEventArgs e)
         {
             //插入新任务
             Task newTask = taskService.addNewTask();
@@ -300,6 +366,19 @@ namespace 高主动性的todo清单
             //滚动到最底部
             scrollView.ScrollToVerticalOffset(scrollView.ScrollableHeight);
 
+        }
+
+        private void Priority_Button_Click(object sender, RoutedEventArgs e)
+        {
+            taskService.makeTasksOrderByPriority();
+            updateTaskList();
+
+        }
+
+        private void Date_Button_Click(object sender, RoutedEventArgs e)
+        {
+            taskService.makeTasksOrderByDate();
+            updateTaskList();
         }
     }
 }
